@@ -1,0 +1,2 @@
+[java]
+jre=D:\workplat\gnu\JDKv17\x86
