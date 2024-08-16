@@ -191,7 +191,7 @@ public:
         CObjPtr<IScriptHost> scripthost;
         if( scripthost.From(m_jvm) )
         {
-            asynsdk::CStringSetter JavaEventName(1, configure.getString("java.evt", "ActionEvent").c_str());
+            asynsdk::CStringSetter JavaEventName(1, configure.getString("java.api", "ActionEvent").c_str()); //call java.api: ActionEvent.onMessage
             scripthost->Invoke(0, &JavaEventName, AF_EVENT_NOTIFY, EN_SystemEvent, (evtid << 32)+ value, 0);
         }
     }

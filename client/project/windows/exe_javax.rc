@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// ÷–Œƒ(÷–ª™»À√Òπ≤∫Õπ˙) resources
+// ‰∏≠Êñá(‰∏≠Âçé‰∫∫Ê∞ëÂÖ±ÂíåÂõΩ) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 #ifdef _WIN32
@@ -83,7 +83,7 @@ BEGIN
             VALUE "LegalCopyright", "Copyright (c) netsecsp 2012-2032"
             VALUE "OriginalFilename", "javax.exe"
             VALUE "ProductName", "asynframe"
-            VALUE "ProductVersion", "1.7.0.0"
+            VALUE "ProductVersion", "1.7.1.1"
         END
     END
     BLOCK "VarFileInfo"
@@ -92,7 +92,7 @@ BEGIN
     END
 END
 
-#endif    // ÷–Œƒ(÷–ª™»À√Òπ≤∫Õπ˙) resources
+#endif    // ‰∏≠Êñá(‰∏≠Âçé‰∫∫Ê∞ëÂÖ±ÂíåÂõΩ) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
