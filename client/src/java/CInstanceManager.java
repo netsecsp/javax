@@ -39,12 +39,8 @@ public class CInstanceManager {
         int onMessage(int message, long lparam1, long lparam2, CUnknown object);
     }
 
+    //////////////////////////////////////////////////////////////////////////
     private static ConcurrentHashMap<String, IAsynMessageEvents> mMapEvents = new ConcurrentHashMap<>();
-
-    //@CalledByNative/java
-    public static IAsynMessageEvents get(String name) {
-        return mMapEvents.get(name);
-    }
 
     public static void add(String name, IAsynMessageEvents events) {
         if (events != null) {
@@ -56,11 +52,19 @@ public class CInstanceManager {
         mMapEvents.remove(name);
     }
 
-    //@CalledByNative
-    private native static long   getNativeObject();
+    //@CalledByNative/java
+    public static IAsynMessageEvents get(String name) {
+        return mMapEvents.get(name);
+    }
 
-    //@Called in main, type=1: app会自动通知java虚拟机退出
-    public  native static void   setMainType(int type);
-    public  native static String getLibraryPath();
-    public  native static int    invoke(Object thread, Object events, int message, long lparam1, long lparam2, CUnknown object);
+    //////////////////////////////////////////////////////////////////////////
+    //@CalledByNative
+    private native static long     getNativeObject();
+
+    //@Called in main, type=1: app will automatically notify the Java virtual machine to exit
+    public  native static void     setMainType(int type);
+    public  native static String   getLibraryPath();
+
+    public  native static CUnknown create(String instancename); //instancename format: name[/classname]
+    public  native static int      invoke(Object thread, Object events, int message, long lparam1, long lparam2, CUnknown object);
 }

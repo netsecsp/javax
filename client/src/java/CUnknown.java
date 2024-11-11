@@ -37,7 +37,7 @@ public class CUnknown {
         CUnknown create(String name, long nativeObject, boolean refCounted);
     }
 
-    private static IUnknownFactory unknownFactory;
+    private static  IUnknownFactory unknownFactory;
     private long    nativeObject;
     private boolean needReleased;
 
