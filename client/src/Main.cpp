@@ -1,7 +1,7 @@
 /*****************************************************************************
 Copyright (c) netsecsp 2012-2032, All rights reserved.
 
-Developer: Shengqian Yang, from China, E-mail: netsecsp@hotmail.com, last updated 07/05/2024
+Developer: Shengqian Yang, from China, E-mail: netsecsp@hotmail.com, last updated 12/23/2024
 http://pingx.sf.net
 
 Redistribution and use in source and binary forms, with or without
@@ -49,14 +49,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #ifdef AAPIDLL_USING
+#pragma comment(lib, "asyncore_dll.lib")
 #ifdef _DEBUG
+#ifdef _DLL
 #pragma comment(lib, "asynsdk_mini-MDd.lib")
 #else
-#pragma comment(lib, "asynsdk_mini-MD.lib")
+#pragma comment(lib, "asynsdk_mini-MTd.lib")
 #endif
-#pragma comment(lib, "asyncore_dll.lib")
+#else //
+#ifdef _DLL
+#pragma comment(lib, "asynsdk_mini-MD.lib")
+#else
+#pragma comment(lib, "asynsdk_mini-MT.lib")
+#endif
+#endif
+#else
+#ifdef _DLL
+#pragma comment(lib, "asynframe-MD_lib.lib")
 #else
 #pragma comment(lib, "asynframe-MT_lib.lib")
+#endif
 #endif
 STDAPI_(extern HRESULT) Initialize( /*[in ]*/IAsynMessageEvents *param1, /*[in ]*/IUnknown *param2 );
 STDAPI_(extern HRESULT) Destory();
@@ -114,7 +126,7 @@ public:
         else
         {
             ::SetCurrentDirectory(configure.getString("app.path").c_str());
-            asynsdk::CreateObject(GetInstancesManager(), "com.command.jvm/jvmproxy", jre.m_val.empty()? 0 :&jre, 0, IID_IOsCommand, (IUnknown**)&mySvc.m_jvm.p);
+            asynsdk::CreateObject(GetInstancesManager(), "com.command.jvm/jvmproxy", jre.m_val.empty()? 0 :&jre, configure.getNumber("java.ver"), IID_IOsCommand, (IUnknown**)&mySvc.m_jvm.p);
             if( mySvc.m_jvm )
             {
                 mySvc.ReportStatus(SERVICE_RUNNING, NO_ERROR); // Report running status when initialization is complete.
@@ -426,7 +438,7 @@ int main(int argc, char* argv[])
     else
     {
         CObjPtr<IOsCommand> jvm;
-        asynsdk::CreateObject(lpInstancesManager, "com.command.jvm/jvmproxy", jre.m_val.empty()? 0 :&jre, 0, IID_IOsCommand, (IUnknown**)&jvm.p);
+        asynsdk::CreateObject(lpInstancesManager, "com.command.jvm/jvmproxy", jre.m_val.empty()? 0 :&jre, configure.getNumber("java.ver"), IID_IOsCommand, (IUnknown**)&jvm.p);
         if( jvm )
         {
             jvm->Execute(0, STRING_from_string(file), 0, 0, &env, 0);

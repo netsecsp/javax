@@ -31,7 +31,10 @@
  ******************************************************/
 package com.frame.api;
 
-public class CUnknown {
+import java.io.Closeable; //通过CUnknown继承Closeable接口显式管理释放对应native资源
+import java.io.IOException;
+
+public class CUnknown implements Closeable {
 
     public interface IUnknownFactory {
         CUnknown create(String name, long nativeObject, boolean refCounted);
@@ -47,18 +50,7 @@ public class CUnknown {
     }
 
     @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        release();
-    }
-
-    //@CalledByNative
-    private long getNativeObject() {
-        return nativeObject;
-    }
-
-    private native static void nativeRelease(long nativeObject);
-    public void release() {
+    public void close() throws IOException {
         if (nativeObject!= 0) {
             if (needReleased) {
                 nativeRelease(nativeObject);
@@ -66,6 +58,13 @@ public class CUnknown {
             nativeObject = 0;
         }
     }
+
+    //@CalledByNative/java
+    public long getNativeObject() {
+        return nativeObject;
+    }
+
+    private native static void nativeRelease(long nativeObject);
 
     //@CalledByNative
     private static CUnknown create(String name, long nativeObject, boolean needReleased) {
