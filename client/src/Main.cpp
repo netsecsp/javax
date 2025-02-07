@@ -1,7 +1,7 @@
 /*****************************************************************************
 Copyright (c) netsecsp 2012-2032, All rights reserved.
 
-Developer: Shengqian Yang, from China, E-mail: netsecsp@hotmail.com, last updated 12/23/2024
+Developer: Shengqian Yang, from China, E-mail: netsecsp@hotmail.com, last updated 02/08/2025
 http://pingx.sf.net
 
 Redistribution and use in source and binary forms, with or without
@@ -336,6 +336,10 @@ static void SvcUnInstall(const char *svcname)
     CloseServiceHandle(schManager);
 }
 
+#ifdef _NO_CONSOLE //https://blog.csdn.net/fenghaibo00/article/details/7966462
+#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+#endif
+
 int main(int argc, char* argv[])
 {// https://learn.microsoft.com/en-us/windows/win32/services/svc-cpp
     std::string path;
@@ -442,6 +446,10 @@ int main(int argc, char* argv[])
         if( jvm )
         {
             jvm->Execute(0, STRING_from_string(file), 0, 0, &env, 0);
+        }
+        else
+        {
+            printf("can't load plugin: jvmproxy or please check configure jre=%s\n", jre.m_val.c_str());
         }
     }
     }while(0);
